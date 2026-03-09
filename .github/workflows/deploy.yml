@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Trigger this workflow when changes are pushed to the main branch
+  issue_comment:
+    types: [created, edited] # Triggers when a comment is added or changed
+
+jobs:
+  deploy:
+    # This ensures it runs either on push, or if the comment literally says "/deploy"
+    if: github.event_name == 'push' || contains(github.event.comment.body, '/deploy') 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Checkout the repository
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20  # Use Node.js version 20
+
+      - name: Install dependencies
+        run: npm install  # Install the dependencies
+
+      - name: Build and export site
+        run: |
+          npm run build
+          npm run export  # Export the site to static files
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4  # Action to deploy to GitHub Pages
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Automatically access the GitHub repository
+          publish_dir: ./out  # Directory to push to gh-pages
+          publish_branch: gh-pages  # Push to gh-pages branch
