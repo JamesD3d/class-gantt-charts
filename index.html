@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Projects Dashboard</title>
+    <link rel="stylesheet" href="gantt.css?v=4">
+</head>
+<body>
+
+<div class="container">
+    <h1>Class Projects Dashboard</h1>
+    <p class="subtitle">Select a subject below.</p>
+
+    <!-- Tabs Container -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('tech-eng-design')">Technology Engineering and Design</button>
+        <button class="tab-btn" onclick="switchTab('eng-design')">Engineering and Design</button>
+    </div>
+
+    <!-- Tab Contents -->
+    <div id="tech-eng-design" class="tab-content active">
+        <div class="project-list">
+            <a href="shelf-bracket.html" class="project-card">
+                <div class="project-info">
+                    <h2>Shelf Bracket Project</h2>
+                    <p>Timeline for CAD, simulation, and 12-day 3D printing schedule.</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+            <!-- New projects block -->
+        </div>
+    </div>
+
+    <div id="eng-design" class="tab-content">
+        <div class="project-list">
+            <div class="empty-state">
+                <p>No project timelines have been added to this class yet.</p>
+                <p><i>Add new markdown-based timelines to the folder to populate this list.</i></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function switchTab(tabId) {
+        // Remove active class from all buttons and contents
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+        // Add active class to clicked tab and corresponding content
+        event.currentTarget.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    }
+</script>
+
+</body>
+</html>
