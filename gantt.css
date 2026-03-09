@@ -1,3 +1,4 @@
+/* gantt.css */
 :root {
     --bg-color: #0f172a;
     --container-bg: #1e293b;
@@ -31,6 +32,7 @@ body {
 
 .container {
     width: 100%;
+    /* Make max-width larger so it spans wider monitors naturally */
     max-width: 1600px;
     background-color: var(--container-bg);
     border-radius: 16px;
@@ -38,7 +40,6 @@ body {
     padding: 2rem;
     border: 1px solid var(--border-color);
     box-sizing: border-box;
-    position: relative;
 }
 
 h1 {
@@ -58,6 +59,7 @@ p.subtitle {
     margin-bottom: 1.5rem;
 }
 
+/* Removed overflow-x: auto so it doesn't scroll instead of shrinking */
 .gantt-wrapper {
     padding-bottom: 1rem;
     width: 100%;
@@ -198,11 +200,21 @@ p.subtitle {
     pointer-events: none;
 }
 
+/* Make absolute edges behave better if tooltip would bleed offscreen */
+.task-bar.task-6 .tooltip { left: 25%; transform: translateX(-25%) translateY(-10px); }
+.task-bar.task-8 .tooltip { left: auto; right: 0; transform: translateX(0) translateY(-10px); }
+.task-bar.task-8 .tooltip::after { left: auto; right: 20px; transform: none; }
+.task-bar.task-8 .tooltip::before { left: auto; right: 20px; transform: none; }
+
 .task-bar:hover .tooltip {
     visibility: visible;
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
+        
+/* Overrides for edge case tooltips hover */
+.task-bar.task-6:hover .tooltip { transform: translateX(-25%) translateY(0); }
+.task-bar.task-8:hover .tooltip { transform: translateX(0) translateY(0); }
 
 .task-bar .tooltip strong {
     color: #38bdf8;
@@ -219,7 +231,7 @@ p.subtitle {
     color: #cbd5e1;
     margin-top: 4px;
 }
-
+        
 .task-bar .tooltip li {
     margin-bottom: 3px;
     line-height: 1.3;
@@ -248,22 +260,13 @@ p.subtitle {
     z-index: 1;
 }
 
-/* Tooltip Right-edge protection (dynamic class added by JS) */
-.tooltip.align-right { left: auto; right: 0; transform: translateX(0) translateY(-10px); }
-.task-bar:hover .tooltip.align-right { transform: translateX(0) translateY(0); }
-.tooltip.align-right::after, .tooltip.align-right::before { left: auto; right: 20px; transform: none; }
-
-/* Tooltip Left/Center-edge protection (dynamic class added by JS for very large tasks) */
-.tooltip.align-offset-left { left: 25%; transform: translateX(-25%) translateY(-10px); }
-.task-bar:hover .tooltip.align-offset-left { transform: translateX(-25%) translateY(0); }
-
-/* Task specific colors */
-.task-1  { background: linear-gradient(90deg, var(--color-1), #60a5fa); }
-.task-2  { background: linear-gradient(90deg, var(--color-2), #a78bfa); }
-.task-3  { background: linear-gradient(90deg, var(--color-3), #f472b6); }
-.task-4  { background: linear-gradient(90deg, var(--color-4), #fb7185); }
-.task-5  { background: linear-gradient(90deg, var(--color-5), #fb923c); }
-.task-6  { background: linear-gradient(90deg, var(--color-6), #facc15); }
-.task-7  { background: linear-gradient(90deg, var(--color-7), #34d399); }
-.task-8  { background: linear-gradient(90deg, var(--color-8), #38bdf8); }
-.task-9  { background: linear-gradient(90deg, var(--color-9), #5eead4); }
+/* Remove JS tooltip classes since we want to rely on the CSS task-level overrides you provided */
+/* Task specific colors & positioning (matching original exactly) */
+.task-1  { background: linear-gradient(90deg, var(--color-1), #60a5fa); width: calc(100% - 4px); left: 2px; }
+.task-2  { background: linear-gradient(90deg, var(--color-2), #a78bfa); width: calc(200% + 1px - 4px); left: 2px; }
+.task-3  { background: linear-gradient(90deg, var(--color-3), #f472b6); width: calc(100% - 4px); left: 2px; }
+.task-4  { background: linear-gradient(90deg, var(--color-4), #fb7185); width: calc(200% + 1px - 4px); left: 2px; }
+.task-5  { background: linear-gradient(90deg, var(--color-5), #fb923c); width: calc(200% + 1px - 4px); left: 2px; }
+.task-6  { background: linear-gradient(90deg, var(--color-6), #facc15); width: calc(400% + 3px - 4px); left: 2px; }
+.task-7  { background: linear-gradient(90deg, var(--color-7), #34d399); width: calc(200% + 1px - 4px); left: 2px; }
+.task-8  { background: linear-gradient(90deg, var(--color-8), #38bdf8); width: calc(100% - 4px); left: 2px; }

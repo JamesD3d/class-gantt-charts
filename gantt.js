@@ -90,11 +90,8 @@ function renderGantt(markdown, container) {
         for (let day = 1; day <= columns.length; day++) {
              html += `  <div class="gantt-cell day-cell">`;
              if (day === task.start) {
-                 // Spanning multiple columns implies adding up pixel gaps (1px each)
-                 let widthCalc = `calc(${task.duration * 100}% + ${task.duration - 1}px - 4px)`;
-                 
                  html += `
-                    <div class="${taskClasses}" style="width: ${widthCalc}; left: 2px;">
+                    <div class="${taskClasses}">
                         <span class="task-bar-text">${task.label}</span>
                         <div class="tooltip ${tooltipAlignClass}">
                             <strong>${task.tooltipTitle}</strong>
