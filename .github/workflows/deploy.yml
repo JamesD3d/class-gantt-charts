@@ -12,6 +12,9 @@ jobs:
     # This ensures it runs either on push, or if the comment literally says "/deploy"
     if: github.event_name == 'push' || contains(github.event.comment.body, '/deploy') 
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
 
     steps:
       - name: Checkout code
