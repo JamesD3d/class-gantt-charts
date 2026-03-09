@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV to Gantt Markdown Converter</title>
+    <link rel="stylesheet" href="gantt.css?v=5">
+    <style>
+        .converter-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        input[type="file"], input[type="date"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .btn:hover {
+            background: #2563eb;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 1rem;
+            font-family: monospace;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 1rem;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body style="background: var(--bg-color); color: var(--text-color); font-family: var(--font-family);">
+
+<div class="converter-container">
+    <div style="margin-bottom: 1rem;"><a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">&larr; Back to Dashboard</a></div>
+    
+    <h1 style="margin-top:0">CSV to Gantt Converter</h1>
+    <p class="subtitle" style="margin-bottom: 2rem;">Upload a Google Calendar or standard CSV export to strictly generate `.md` format. This does not alter any existing files.</p>
+
+    <div class="form-group">
+        <label>Upload CSV File</label>
+        <input type="file" id="csvFile" accept=".csv">
+        <small style="color:var(--text-muted); display:block; margin-top:0.25rem;">Expected headers: Subject, Start Date, Start Time, End Date, End Time, Description</small>
+    </div>
+
+    <div class="form-group">
+        <label>Column 1 Start Date</label>
+        <input type="date" id="startDate">
+        <small style="color:var(--text-muted); display:block; margin-top:0.25rem;">This date will act as <code>Start: 1</code> on your chart.</small>
+    </div>
+
+    <div class="form-group">
+        <label>Time Scale (1 Column = ?)</label>
+        <select id="timeScale">
+            <option value="1">1 Day</option>
+            <option value="0.041666667">1 Hour</option>
+            <option value="0.010416667">15 Minutes</option>
+        </select>
+    </div>
+
+    <button class="btn" onclick="convertCSV()">Convert to Markdown</button>
+
+    <div id="outputContainer" style="display:none; margin-top: 2rem;">
+        <label>Generated Markdown (Copy & Paste this into a .md file)</label>
+        <textarea id="markdownOutput" readonly></textarea>
+        <button class="btn" style="margin-top:1rem; background: #10b981;" onclick="copyOutput()">Copy to Clipboard</button>
+    </div>
+</div>
+
+<script>
+    // Set default date to today
+    document.getElementById('startDate').valueAsDate = new Date();
+
+    function copyOutput() {
+        const textToCopy = document.getElementById('markdownOutput').value;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert('Copied to clipboard!');
+        });
+    }
+
+    function parseCSVRow(row) {
+        // Handle quotes in CSV which might contain commas
+        let insideQuote = false;
+        let entries = [];
+        let currentEntry = "";
+        
+        for (let i = 0; i < row.length; i++) {
+            let char = row[i];
+            if (char === '"') {
+                insideQuote = !insideQuote;
+            } else if (char === ',' && !insideQuote) {
+                entries.push(currentEntry.trim());
+                currentEntry = "";
+            } else {
+                currentEntry += char;
+            }
+        }
+        entries.push(currentEntry.trim());
+        return entries;
+    }
+
+    function convertCSV() {
+        const fileInput = document.getElementById('csvFile');
+        const startDateInput = document.getElementById('startDate').value;
+        const timeScale = parseFloat(document.getElementById('timeScale').value); // Days per column
+
+        if (!fileInput.files.length) {
+            alert('Please select a CSV file first.');
+            return;
+        }
+
+        const baseStartDate = new Date(startDateInput + 'T00:00:00');
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const text = e.target.result;
+            const lines = text.split('\n');
+            if (lines.length < 2) return;
+
+            // Find column indices based on header row
+            const headers = parseCSVRow(lines[0].toLowerCase());
+            const subjectIdx = headers.findIndex(h => h.includes('subject'));
+            const startDtIdx = headers.findIndex(h => h.includes('start date'));
+            const endDtIdx = headers.findIndex(h => h.includes('end date'));
+            
+            // Optional time columns
+            const startTmIdx = headers.findIndex(h => h.includes('start time'));
+            const endTmIdx = headers.findIndex(h => h.includes('end time'));
+            const descIdx = headers.findIndex(h => h.includes('description'));
+
+            if (subjectIdx === -1 || startDtIdx === -1 || endDtIdx === -1) {
+                alert("Missing required columns: 'Subject', 'Start Date', and 'End Date'.");
+                return;
+            }
+
+            let markdown = `# Generated Output\nSubtitle: Converted from CSV\nColumns: Col 1, Col 2, Col 3, Col 4, Col 5\n\n`;
+
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                const row = parseCSVRow(lines[i]);
+                if (row.length <= Math.max(subjectIdx, startDtIdx)) continue;
+
+                const title = row[subjectIdx].replace(/"/g, '');
+                const startStr = row[startDtIdx];
+                const endStr = row[endDtIdx];
+                
+                const startTimeStr = startTmIdx > -1 && row[startTmIdx] ? row[startTmIdx] : '00:00:00';
+                const endTimeStr = endTmIdx > -1 && row[endTmIdx] ? row[endTmIdx] : '00:00:00';
+                const desc = descIdx > -1 && row[descIdx] ? row[descIdx].replace(/"/g, '') : '';
+
+                // Try to parse the dates
+                const eventStart = new Date(`${startStr} ${startTimeStr}`);
+                const eventEnd = new Date(`${endStr} ${endTimeStr}`);
+
+                // If dates are invalid, skip
+                if (isNaN(eventStart) || isNaN(eventEnd)) continue;
+
+                // Calculate relative position based on baseStartDate and timeScale
+                const msDiffToStart = eventStart - baseStartDate;
+                const daysDiffToStart = msDiffToStart / (1000 * 60 * 60 * 24);
+                let startCol = (daysDiffToStart / timeScale) + 1; // 1-indexed for Gantt
+
+                const msDuration = eventEnd - eventStart;
+                const daysDuration = msDuration / (1000 * 60 * 60 * 24);
+                let durationCols = (daysDuration / timeScale);
+
+                // For 0 duration events (like a deadline), give it a min duration of 1
+                if (durationCols <= 0) durationCols = 1;
+
+                // Clean formatting to 2 decimals max if needed
+                startCol = Math.round(startCol * 100) / 100;
+                durationCols = Math.round(durationCols * 100) / 100;
+
+                markdown += `## ${title}\n`;
+                markdown += `Points: Event\n`;
+                markdown += `Start: ${startCol}\n`;
+                markdown += `Duration: ${durationCols}\n`;
+                markdown += `Label: ${title.substring(0, 15)}...\n`;
+                markdown += `Tooltip: Event Details\n`;
+                if (desc) {
+                    markdown += `- ${desc.substring(0, 50)}...\n`;
+                }
+                markdown += `\n`;
+            }
+
+            document.getElementById('markdownOutput').value = markdown;
+            document.getElementById('outputContainer').style.display = 'block';
+        };
+        reader.readAsText(fileInput.files[0]);
+    }
+</script>
+</body>
+</html>
