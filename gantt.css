@@ -262,6 +262,7 @@ p.subtitle {
 
 /* Remove JS tooltip classes since we want to rely on the CSS task-level overrides you provided */
 /* Task specific colors & positioning (matching original exactly) */
+/* Task specific colors & positioning (matching original exactly) */
 .task-1  { background: linear-gradient(90deg, var(--color-1), #60a5fa); width: calc(100% - 4px); left: 2px; }
 .task-2  { background: linear-gradient(90deg, var(--color-2), #a78bfa); width: calc(200% + 1px - 4px); left: 2px; }
 .task-3  { background: linear-gradient(90deg, var(--color-3), #f472b6); width: calc(100% - 4px); left: 2px; }
