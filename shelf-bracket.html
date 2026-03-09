@@ -3,14 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shelf Bracket Project Timeline</title>
-
-    <!-- Include marked.js for Markdown parsing -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
-    <!-- Include mermaid.js for Gantt charts -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
+    <title>Shelf Bracket Project Gantt Chart</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -18,8 +11,16 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border-color: #334155;
-            --accent-color: #38bdf8;
-            --link-color: #60a5fa;
+            
+            --color-1: #3b82f6; /* Blue */
+            --color-2: #8b5cf6; /* Purple */
+            --color-3: #ec4899; /* Pink */
+            --color-4: #f43f5e; /* Rose */
+            --color-5: #f97316; /* Orange */
+            --color-6: #eab308; /* Yellow */
+            --color-7: #10b981; /* Emerald */
+            --color-8: #0ea5e9; /* Sky */
+            --color-9: #14b8a6; /* Teal */
         }
 
         body {
@@ -27,197 +28,516 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             min-height: 100vh;
+            box-sizing: border-box;
         }
 
         .container {
             width: 100%;
-            max-width: 1000px;
+            /* Make max-width larger so it spans wider monitors naturally */
+            max-width: 1600px;
             background-color: var(--container-bg);
             border-radius: 16px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-            padding: 3rem;
+            padding: 2rem;
             border: 1px solid var(--border-color);
-            margin-top: 1rem;
+            box-sizing: border-box;
         }
 
-        .header-bar {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .btn-back {
-            background-color: transparent;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-back:hover {
-            background-color: rgba(56, 189, 248, 0.1);
-            transform: translateX(-2px);
-        }
-
-        /* Markdown Styles */
-        .markdown-content h1 {
-            color: #38bdf8;
+        h1 {
             margin-top: 0;
-            font-size: 2.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.25rem;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .markdown-content h2 {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            margin-top: 2rem;
-            color: #e2e8f0;
-        }
-
-        .markdown-content ul {
-            padding-left: 1.5rem;
+        p.subtitle {
             color: var(--text-muted);
-            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .markdown-content strong {
-            color: #f8fafc;
+        /* Removed overflow-x: auto so it doesn't scroll instead of shrinking */
+        .gantt-wrapper {
+            padding-bottom: 1rem;
+            width: 100%;
         }
 
-        /* Mermaid Graph Container */
-        .mermaid {
-            background-color: #0f172a;
+        .gantt-grid {
+            display: grid;
+            /* Label column shrinks if needed, day columns share remaining space evenly */
+            grid-template-columns: minmax(220px, 280px) repeat(12, minmax(40px, 1fr));
+            gap: 1px;
+            background-color: var(--border-color);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 1rem;
-            margin-top: 2rem;
-            overflow-x: auto;
+            width: 100%;
         }
+
+        .gantt-header, .gantt-cell {
+            background-color: var(--container-bg);
+            padding: 0.75rem 0.25rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .gantt-header.task-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            justify-content: flex-start;
+            padding-left: 1rem;
+        }
+
+        .gantt-header.day-label {
+            justify-content: center;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-left: 1px solid var(--border-color);
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .day-label-wk {
+            font-size: 0.65rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .gantt-row {
+            display: contents;
+        }
+
+        .gantt-row:hover .gantt-cell {
+            background-color: rgba(255, 255, 255, 0.02);
+            transition: background-color 0.2s ease;
+        }
+
+        .task-name {
+            justify-content: flex-start;
+            padding-left: 1rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .task-name .pts {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            padding: 2px 5px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        .day-cell {
+            border-left: 1px solid rgba(255, 255, 255, 0.05); /* very soft guide line */
+            position: relative;
+        }
+
+        /* The actual task bar */
+        .task-bar {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 30px;
+            border-radius: 6px;
+            z-index: 10;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .task-bar-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .task-bar:hover {
+            filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,255,255,0.2));
+            z-index: 50; /* Bring hovered task to front */
+        }
+
+        /* TOOLTIP CSS */
+        .task-bar .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 10px 14px;
+            border-radius: 8px;
+            width: max-content;
+            max-width: 280px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.8), 0 8px 10px -6px rgba(0, 0, 0, 0.6);
+            z-index: 100;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            font-weight: 400;
+            white-space: normal;
+            text-align: left;
+            pointer-events: none;
+        }
+
+        /* Make absolute edges behave better if tooltip would bleed offscreen */
+        .task-bar.task-6 .tooltip { left: 25%; transform: translateX(-25%) translateY(-10px); }
+        .task-bar.task-8 .tooltip { left: auto; right: 0; transform: translateX(0) translateY(-10px); }
+        .task-bar.task-8 .tooltip::after { left: auto; right: 20px; transform: none; }
+        .task-bar.task-8 .tooltip::before { left: auto; right: 20px; transform: none; }
+
+        .task-bar:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        /* Overrides for edge case tooltips hover */
+        .task-bar.task-6:hover .tooltip { transform: translateX(-25%) translateY(0); }
+        .task-bar.task-8:hover .tooltip { transform: translateX(0) translateY(0); }
+
+        .task-bar .tooltip strong {
+            color: #38bdf8;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 4px;
+        }
+
+        .task-bar .tooltip ul {
+            margin: 0;
+            padding-left: 1.2rem;
+            color: #cbd5e1;
+            margin-top: 4px;
+        }
+        
+        .task-bar .tooltip li {
+            margin-bottom: 3px;
+            line-height: 1.3;
+        }
+
+        /* Tooltip arrow */
+        .task-bar .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: transparent transparent #334155 transparent;
+        }
+        .task-bar .tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: calc(100% - 1.5px);
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: transparent transparent #0f172a transparent;
+            z-index: 1;
+        }
+
+        /* Task specific colors & positioning */
+        .task-1  { background: linear-gradient(90deg, var(--color-1), #60a5fa); width: calc(100% - 4px); left: 2px; }
+        .task-2  { background: linear-gradient(90deg, var(--color-2), #a78bfa); width: calc(200% + 1px - 4px); left: 2px; }
+        .task-3  { background: linear-gradient(90deg, var(--color-3), #f472b6); width: calc(100% - 4px); left: 2px; }
+        .task-4  { background: linear-gradient(90deg, var(--color-4), #fb7185); width: calc(200% + 1px - 4px); left: 2px; }
+        .task-5  { background: linear-gradient(90deg, var(--color-5), #fb923c); width: calc(200% + 1px - 4px); left: 2px; }
+        .task-6  { background: linear-gradient(90deg, var(--color-6), #facc15); width: calc(400% + 3px - 4px); left: 2px; }
+        .task-7  { background: linear-gradient(90deg, var(--color-7), #34d399); width: calc(200% + 1px - 4px); left: 2px; }
+        .task-8  { background: linear-gradient(90deg, var(--color-8), #38bdf8); width: calc(100% - 4px); left: 2px; }
 
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-bar">
-        <a href="index.html" class="btn-back">← Back to Dashboard</a>
+    <div style="margin-bottom: 1rem;"><a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">&larr; Back to Projects</a></div>
+    <h1>Shelf Bracket Project Timeline</h1>
+    <p class="subtitle">Hover over any task block to see exactly what is required.</p>
+
+    <div class="gantt-wrapper">
+        <div class="gantt-grid">
+            <!-- Header Row -->
+            <div class="gantt-header task-label">Deliverable / Task</div>
+            <div class="gantt-header day-label">Mon <span class="day-label-wk">Wk 1</span></div>
+            <div class="gantt-header day-label">Tue <span class="day-label-wk">Wk 1</span></div>
+            <div class="gantt-header day-label">Wed <span class="day-label-wk">Wk 1</span></div>
+            <div class="gantt-header day-label">Thu <span class="day-label-wk">Wk 1</span></div>
+            <div class="gantt-header day-label">Fri <span class="day-label-wk">Wk 1</span></div>
+            <div class="gantt-header day-label">Mon <span class="day-label-wk">Wk 2</span></div>
+            <div class="gantt-header day-label">Tue <span class="day-label-wk">Wk 2</span></div>
+            <div class="gantt-header day-label">Wed <span class="day-label-wk">Wk 2</span></div>
+            <div class="gantt-header day-label">Thu <span class="day-label-wk">Wk 2</span></div>
+            <div class="gantt-header day-label">Fri <span class="day-label-wk">Wk 2</span></div>
+            <div class="gantt-header day-label">Mon <span class="day-label-wk">Wk 3</span></div>
+            <div class="gantt-header day-label">Tue <span class="day-label-wk">Wk 3</span></div>
+
+            <!-- Row 1: Part 1 -->
+            <div class="gantt-row">
+                <div class="gantt-cell task-name">Part 1: Sketch & Planning <span class="pts">4 pts</span></div>
+                <div class="gantt-cell day-cell">
+                    <div class="task-bar task-1">
+                        <span class="task-bar-text">Sketch & Plan</span>
+                        <div class="tooltip">
+                            <strong>Part 1 Requirements</strong>
+                            <ul>
+                                <li>Upload drawing of rough sketch on paper (no measurements)</li>
+                                <li>Written description of plan and function</li>
+                                <li>Upload directly to Canvas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+            </div>
+
+            <!-- Row 2: Part 2 -->
+            <div class="gantt-row">
+                <div class="gantt-cell task-name">Part 2: CAD Onshape Models <span class="pts">4 pts</span></div>
+                <div class="gantt-cell day-cell">
+                    <div class="task-bar task-2">
+                        <span class="task-bar-text">Table & Bracket</span>
+                        <div class="tooltip">
+                            <strong>Part 2 Requirements</strong>
+                            <ul>
+                                <li>Create CAD model in Onshape</li>
+                                <li>Model the table you are attaching to</li>
+                                <li>Model the Shelf Bracket</li>
+                                <li>Assign material (PLA) and limit volume</li>
+                                <li>Export as .stl and upload</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+            </div>
+
+            <!-- Row 3: Part 3 -->
+            <div class="gantt-row">
+                <div class="gantt-cell task-name">Part 3: Simulation Update <span class="pts">4 pts</span></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell">
+                    <div class="task-bar task-3">
+                        <span class="task-bar-text">Simulate & Adjust</span>
+                        <div class="tooltip">
+                            <strong>Part 3 Requirements</strong>
+                            <ul>
+                                <li>Use Onshape Simulation to adjust model</li>
+                                <li>Written Explanation of what you changed based on simulation</li>
+                                <li>Include image and upload</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+            </div>
+
+            <!-- Row 4: Part 4 -->
+            <div class="gantt-row">
+                <div class="gantt-cell task-name">Part 4: Technical Writing <span class="pts">4 pts</span></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell">
+                    <div class="task-bar task-4">
+                        <span class="task-bar-text">Data / Spec Writing</span>
+                        <div class="tooltip">
+                            <strong>Part 4 Requirements</strong>
+                            <ul>
+                                <li>Complete Technical Writing Document (Simplicity, brevity, active voice)</li>
+                                <li>Include Models Mass, Surface Area, and Volume</li>
+                                <li>Upload to Canvas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+            </div>
+
+            <!-- Row 5: Part 5 -->
+            <div class="gantt-row">
+                <div class="gantt-cell task-name">Part 5: Detailed 4-View Drawing <span class="pts">4 pts</span></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell">
+                    <div class="task-bar task-5">
+                        <span class="task-bar-text">Dimensions & Drawing</span>
+                        <div class="tooltip">
+                            <strong>Part 5 Requirements</strong>
+                            <ul>
+                                <li>Generate a detailed 4 view drawing of your model</li>
+                                <li>Must include all relevant dimensions</li>
+                                <li>Upload to Canvas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+            </div>
+
+            <!-- Row 6: Print Time -->
+            <div class="gantt-row">
+                <div class="gantt-cell task-name">3D Printing Operations <span class="pts">Background</span></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell">
+                    <div class="task-bar task-6">
+                        <span class="task-bar-text">Class 3D Printing (4 Days)</span>
+                        <div class="tooltip">
+                            <strong>3D Printing</strong>
+                            <ul>
+                                <li>All approved brackets will be printed over these 4 class days</li>
+                                <li>Brackets use PLA material</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+            </div>
+
+            <!-- Row 7: Part 7 -->
+            <div class="gantt-row">
+                <div class="gantt-cell task-name">Part 7: Test & Record Data <span class="pts">4 pts</span></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell">
+                    <div class="task-bar task-7">
+                        <span class="task-bar-text">Test & Evaluate</span>
+                        <div class="tooltip">
+                            <strong>Part 7 Requirements</strong>
+                            <ul>
+                                <li>Test and Record Data of printed brackets</li>
+                                <li>Using Class data define: Mean, Median, and Mode (Mass & Weight Held)</li>
+                                <li>Upload findings to Canvas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+            </div>
+
+            <!-- Row 8: Part 6 & Final -->
+            <div class="gantt-row">
+                <div class="gantt-cell task-name">Part 6 & Final Uploads <span class="pts">4 pts</span></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell"></div>
+                <div class="gantt-cell day-cell">
+                    <div class="task-bar task-8">
+                        <span class="task-bar-text">Collate & Docs</span>
+                        <div class="tooltip">
+                            <strong>Part 6 & Final Formatting</strong>
+                            <ul>
+                                <li>Upload .stl of your model to Canvas (Part 6)</li>
+                                <li>Upload all Documents into ONSHAPE Document as .pdf or .jpeg</li>
+                                <li>Final submission check!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
     </div>
-
-    <!-- The markdown content will be rendered inside this div -->
-    <div id="content" class="markdown-content"></div>
 </div>
-
-<!-- 
-====================================================================
-MARKDOWN SOURCE
-Edit the text below to update the page and the Gantt chart!
-==================================================================== 
--->
-<script type="text/markdown" id="markdown-source">
-# Shelf Bracket Project
-
-This timeline details the 12-day process for designing, analyzing, printing, and testing the PLA Shelf Bracket.
-
-## Deliverables Checklist
-
-* **Part 1 (4 pts):** Upload rough sketch to Canvas and written function description.
-* **Part 2 (4 pts):** Create Onshape CAD Models (Table + Bracket, PLA, export .stl).
-* **Part 3 (4 pts):** Simulation, adjust model, written explanation with image.
-* **Part 4 (4 pts):** Technical Writing (Models Mass, Surface area, and volume).
-* **Part 5 (4 pts):** Detailed 4-view drawing with relevant dimensions.
-* **3D Printing Phase:** 4 class days background printing.
-* **Part 7 (4 pts):** Test & Record Data (Mean, Median, Mode for Mass & Weight Held).
-* **Part 6 (4 pts):** Upload .stl and collate all documents as pdf/jpeg into Onshape Document.
-
-## Project Timeline (Gantt Chart)
-
-```mermaid
-gantt
-    title Shelf Bracket Gantt Chart
-    dateFormat  YYYY-MM-DD
-    axisFormat  Day %d
-    
-    section Week 1
-    Part 1 Sketch & Plan      :a1, 2026-03-09, 1d
-    Start Part 2 CAD          :a2, 2026-03-09, 1d
-    Finish Part 2 CAD         :a3, 2026-03-10, 1d
-    Part 3 Simulate & Adjust  :a4, 2026-03-11, 1d
-    Start Part 4 Data Spec    :a5, 2026-03-11, 1d
-    Finish Part 4 Data Spec   :a6, 2026-03-12, 1d
-    Start Part 5 Dimensions   :a7, 2026-03-12, 1d
-    Finish Part 5 Dimensions  :a8, 2026-03-13, 1d
-    
-    section Week 2 (Print)
-    Class 3D Printing         :printing, 2026-03-16, 4d
-    
-    section Week 3
-    Part 7 Test & Evaluate    :test, 2026-03-23, 2d
-    Part 6 Collate & Docs     :final, 2026-03-24, 1d
-```
-</script>
-
-<script>
-    // 1. Initialize Mermaid parameters
-    mermaid.initialize({
-        startOnLoad: false, 
-        theme: 'dark', // Fits our styling perfectly
-        gantt: {
-            titleTopMargin: 25,
-            barHeight: 28,
-            barGap: 8,
-            topPadding: 50,
-            leftPadding: 75,
-            gridLineStartPadding: 35,
-            fontSize: 14,
-            sectionFontSize: 14,
-            numberSectionStyles: 3
-        }
-    });
-
-    // 2. Grab the raw markdown from the script tag
-    const sourceText = document.getElementById('markdown-source').textContent;
-
-    // 3. Render markdown to standard HTML
-    const renderedHtml = marked.parse(sourceText);
-    
-    // 4. Inject it into the page
-    document.getElementById('content').innerHTML = renderedHtml;
-
-    // 5. Look for any code blocks that were generated as mermaid and convert them
-    // Marked.js generates <pre><code class="language-mermaid">...</code></pre>
-    const codeBlocks = document.querySelectorAll('code.language-mermaid');
-    codeBlocks.forEach((block, index) => {
-        // Strip out the wrapper to just provide mermaid with plain text
-        const mermaidCode = block.textContent;
-        const container = block.parentElement; // The <pre> tag
-        
-        // Create a new div for mermaid
-        const mermaidDiv = document.createElement('div');
-        mermaidDiv.className = 'mermaid';
-        mermaidDiv.textContent = mermaidCode;
-        
-        // Replace the <pre> tag with the mermaid div
-        container.replaceWith(mermaidDiv);
-    });
-
-    // 6. Tell mermaid to render the new divs
-    mermaid.run({
-        nodes: document.querySelectorAll('.mermaid')
-    });
-</script>
 
 </body>
 </html>
