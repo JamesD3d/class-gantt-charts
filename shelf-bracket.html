@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelf Bracket Project Timeline</title>
+
+    <!-- Include marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Include mermaid.js for Gantt charts -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --container-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --accent-color: #38bdf8;
+            --link-color: #60a5fa;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background-color: var(--container-bg);
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            padding: 3rem;
+            border: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+
+        .header-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .btn-back {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-back:hover {
+            background-color: rgba(56, 189, 248, 0.1);
+            transform: translateX(-2px);
+        }
+
+        /* Markdown Styles */
+        .markdown-content h1 {
+            color: #38bdf8;
+            margin-top: 0;
+            font-size: 2.5rem;
+        }
+
+        .markdown-content h2 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            color: #e2e8f0;
+        }
+
+        .markdown-content ul {
+            padding-left: 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .markdown-content strong {
+            color: #f8fafc;
+        }
+
+        /* Mermaid Graph Container */
+        .mermaid {
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+            overflow-x: auto;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-bar">
+        <a href="index.html" class="btn-back">← Back to Dashboard</a>
+    </div>
+
+    <!-- The markdown content will be rendered inside this div -->
+    <div id="content" class="markdown-content"></div>
+</div>
+
+<!-- 
+====================================================================
+MARKDOWN SOURCE
+Edit the text below to update the page and the Gantt chart!
+==================================================================== 
+-->
+<script type="text/markdown" id="markdown-source">
+# Shelf Bracket Project
+
+This timeline details the 12-day process for designing, analyzing, printing, and testing the PLA Shelf Bracket.
+
+## Deliverables Checklist
+
+* **Part 1 (4 pts):** Upload rough sketch to Canvas and written function description.
+* **Part 2 (4 pts):** Create Onshape CAD Models (Table + Bracket, PLA, export .stl).
+* **Part 3 (4 pts):** Simulation, adjust model, written explanation with image.
+* **Part 4 (4 pts):** Technical Writing (Models Mass, Surface area, and volume).
+* **Part 5 (4 pts):** Detailed 4-view drawing with relevant dimensions.
+* **3D Printing Phase:** 4 class days background printing.
+* **Part 7 (4 pts):** Test & Record Data (Mean, Median, Mode for Mass & Weight Held).
+* **Part 6 (4 pts):** Upload .stl and collate all documents as pdf/jpeg into Onshape Document.
+
+## Project Timeline (Gantt Chart)
+
+```mermaid
+gantt
+    title Shelf Bracket Gantt Chart
+    dateFormat  YYYY-MM-DD
+    axisFormat  Day %d
+    
+    section Week 1
+    Part 1 Sketch & Plan      :a1, 2026-03-09, 1d
+    Start Part 2 CAD          :a2, 2026-03-09, 1d
+    Finish Part 2 CAD         :a3, 2026-03-10, 1d
+    Part 3 Simulate & Adjust  :a4, 2026-03-11, 1d
+    Start Part 4 Data Spec    :a5, 2026-03-11, 1d
+    Finish Part 4 Data Spec   :a6, 2026-03-12, 1d
+    Start Part 5 Dimensions   :a7, 2026-03-12, 1d
+    Finish Part 5 Dimensions  :a8, 2026-03-13, 1d
+    
+    section Week 2 (Print)
+    Class 3D Printing         :printing, 2026-03-16, 4d
+    
+    section Week 3
+    Part 7 Test & Evaluate    :test, 2026-03-23, 2d
+    Part 6 Collate & Docs     :final, 2026-03-24, 1d
+```
+</script>
+
+<script>
+    // 1. Initialize Mermaid parameters
+    mermaid.initialize({
+        startOnLoad: false, 
+        theme: 'dark', // Fits our styling perfectly
+        gantt: {
+            titleTopMargin: 25,
+            barHeight: 28,
+            barGap: 8,
+            topPadding: 50,
+            leftPadding: 75,
+            gridLineStartPadding: 35,
+            fontSize: 14,
+            sectionFontSize: 14,
+            numberSectionStyles: 3
+        }
+    });
+
+    // 2. Grab the raw markdown from the script tag
+    const sourceText = document.getElementById('markdown-source').textContent;
+
+    // 3. Render markdown to standard HTML
+    const renderedHtml = marked.parse(sourceText);
+    
+    // 4. Inject it into the page
+    document.getElementById('content').innerHTML = renderedHtml;
+
+    // 5. Look for any code blocks that were generated as mermaid and convert them
+    // Marked.js generates <pre><code class="language-mermaid">...</code></pre>
+    const codeBlocks = document.querySelectorAll('code.language-mermaid');
+    codeBlocks.forEach((block, index) => {
+        // Strip out the wrapper to just provide mermaid with plain text
+        const mermaidCode = block.textContent;
+        const container = block.parentElement; // The <pre> tag
+        
+        // Create a new div for mermaid
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidCode;
+        
+        // Replace the <pre> tag with the mermaid div
+        container.replaceWith(mermaidDiv);
+    });
+
+    // 6. Tell mermaid to render the new divs
+    mermaid.run({
+        nodes: document.querySelectorAll('.mermaid')
+    });
+</script>
+
+</body>
+</html>
