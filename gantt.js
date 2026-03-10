@@ -91,7 +91,7 @@ function renderGantt(markdown, container) {
         exportDiv.id = 'export-container';
         exportDiv.className = 'export-btn-container';
         exportDiv.innerHTML = `<button class="export-btn" id="export-csv-btn" title="Export to Google Calendar, Outlook, etc.">📥 Export to Calendar (CSV)</button>`;
-        container.insertBefore(exportDiv, document.getElementById('gantt-wrapper'));
+        container.parentNode.insertBefore(exportDiv, container);
         
         document.getElementById('export-csv-btn').addEventListener('click', () => {
             showExportModal(tasks, title || 'Project Timeline');
