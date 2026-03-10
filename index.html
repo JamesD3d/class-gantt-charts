@@ -19,42 +19,52 @@
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('tech-eng-design')">Technology Engineering and Design</button>
         <button class="tab-btn" onclick="switchTab('eng-design')">Engineering and Design</button>
+        <button class="tab-btn" onclick="switchTab('templates')">Templates</button>
     </div>
 
     <!-- Tab Contents -->
     <div id="tech-eng-design" class="tab-content active">
         <div class="project-list">
-            <a href="shelf-bracket.html" class="project-card">
-                <div class="project-info">
-                    <h2>Shelf Bracket Project</h2>
-                    <p>Timeline for CAD, simulation, and 12-day 3D printing schedule.</p>
-                </div>
-                <div class="arrow">→</div>
-            </a>
-            
-            <a href="template-singleday.html" class="project-card">
-                <div class="project-info">
-                    <h2>Single-Day Lab Template</h2>
-                    <p>A template showing 15-minute intervals for a single 1.5-hour class period.</p>
-                </div>
-                <div class="arrow">→</div>
-            </a>
+            <!-- BLOCK:tech-eng-design -->
 
-            <a href="template-multiday.html" class="project-card">
+            <a href="viewer.html?file=projects%2Ftech-eng-design%2Fshelf-bracket.md" class="project-card">
                 <div class="project-info">
-                    <h2>Multi-Day Lab Template</h2>
-                    <p>A general 10-day project timeline for research, design, build, and presentation.</p>
+                    <h2>Shelf Bracket Project Timeline</h2>
+                    <p>Hover over any task block to see exactly what is required.</p>
                 </div>
                 <div class="arrow">→</div>
             </a>
+            <!-- ENDBLOCK:tech-eng-design -->
+        </div>
     </div>
 
     <div id="eng-design" class="tab-content">
         <div class="project-list">
-            <div class="empty-state">
-                <p>No project timelines have been added to this class yet.</p>
-                <p><i>Add new markdown-based timelines to the folder to populate this list.</i></p>
-            </div>
+            <!-- BLOCK:eng-design -->
+
+            <!-- ENDBLOCK:eng-design -->
+        </div>
+    </div>
+
+    <div id="templates" class="tab-content">
+        <div class="project-list">
+            <!-- BLOCK:templates -->
+
+            <a href="viewer.html?file=templates%2Ftemplate-multiday.md" class="project-card">
+                <div class="project-info">
+                    <h2>Multi-Day Lab Template</h2>
+                    <p>10-Class Period Project Outline</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+            <a href="viewer.html?file=templates%2Ftemplate-singleday.md" class="project-card">
+                <div class="project-info">
+                    <h2>Single Day Lab Template</h2>
+                    <p>1 Hour 30 Minute Lab Period (15-Minute Blocks)</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+            <!-- ENDBLOCK:templates -->
         </div>
     </div>
 
