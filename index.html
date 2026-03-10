@@ -15,17 +15,15 @@
         <a href="converter.html" class="tab-btn" style="text-decoration: none; font-size: 0.9rem; padding: 0.5rem 1rem;">&#9881; CSV to Gantt Converter</a>
     </div>
 
-    <!-- Tabs Container -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('tech-eng-design')">Technology Engineering and Design</button>
-        <button class="tab-btn" onclick="switchTab('eng-design')">Engineering and Design</button>
-        <button class="tab-btn" onclick="switchTab('templates')">Templates</button>
-    </div>
-
-    <!-- Tab Contents -->
-    <div id="tech-eng-design" class="tab-content active">
-        <div class="project-list">
-            <!-- BLOCK:tech-eng-design -->
+    <!-- BLOCK:DYNAMIC_CONTENT -->
+<div class="teacher-section" style="margin-top: 3rem;">
+  <h2 style="border-bottom: 2px solid var(--color-1); padding-bottom: 0.5rem; color: var(--color-1);">Mr. James</h2>
+  <div class="tabs" style="margin-top: 1rem;">
+      <button class="tab-btn active" onclick="switchTab(this, 'Mr--James-tech-eng-design')">Tech Eng Design</button>
+      <button class="tab-btn " onclick="switchTab(this, 'Mr--James-templates')">Templates</button>
+  </div>
+  <div id="Mr--James-tech-eng-design" class="tab-content active">
+      <div class="project-list">
 
             <a href="viewer.html?file=Mr.%20James/tech-eng-design/shelf-bracket.md" class="project-card">
                 <div class="project-info">
@@ -33,22 +31,10 @@
                     <p>Hover over any task block to see exactly what is required.</p>
                 </div>
                 <div class="arrow">→</div>
-            </a>
-            <!-- ENDBLOCK:tech-eng-design -->
-        </div>
-    </div>
-
-    <div id="eng-design" class="tab-content">
-        <div class="project-list">
-            <!-- BLOCK:eng-design -->
-
-            <!-- ENDBLOCK:eng-design -->
-        </div>
-    </div>
-
-    <div id="templates" class="tab-content">
-        <div class="project-list">
-            <!-- BLOCK:templates -->
+            </a>      </div>
+  </div>
+  <div id="Mr--James-templates" class="tab-content ">
+      <div class="project-list">
 
             <a href="viewer.html?file=Mr.%20James/templates/template-multiday.md" class="project-card">
                 <div class="project-info">
@@ -63,21 +49,26 @@
                     <p>1 Hour 30 Minute Lab Period (15-Minute Blocks)</p>
                 </div>
                 <div class="arrow">→</div>
-            </a>
-            <!-- ENDBLOCK:templates -->
-        </div>
-    </div>
+            </a>      </div>
+  </div>
+</div>
+
+    <!-- ENDBLOCK:DYNAMIC_CONTENT -->
 
 </div>
 
 <script>
-    function switchTab(tabId) {
-        // Remove active class from all buttons and contents
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    function switchTab(btn, tabId) {
+        // Find the parent teacher-section container
+        const section = btn.closest('.teacher-section');
+        if (!section) return;
+        
+        // Remove active class from buttons and contents inside this specific section only
+        section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
         // Add active class to clicked tab and corresponding content
-        event.currentTarget.classList.add('active');
+        btn.classList.add('active');
         document.getElementById(tabId).classList.add('active');
     }
 </script>
