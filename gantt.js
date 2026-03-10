@@ -1,9 +1,27 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const container = document.getElementById('gantt-wrapper');
     if (!container) return;
-    const url = container.getAttribute('data-src');
-    if (!url) return;
     
+    // First, check if there is a ?file= param in the URL (for viewer.html)
+    const urlParams = new URLSearchParams(window.location.search);
+    let url = urlParams.get('file');
+
+    // If not, see if data-src is hardcoded (legacy support)
+    if (!url) {
+        url = container.getAttribute('data-src');
+    }
+
+    if (!url) {
+        if (window.location.pathname.includes('viewer.html')) {
+            container.innerHTML = '<p style="color:red; padding:2rem;">No project file specified in URL.</p>';
+            document.getElementById('project-title').textContent = 'No Project Selected';
+        }
+        return;
+    }
+    
+    // Set for subsequent access
+    container.setAttribute('data-src', url);
+
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error('Network response was not ok');
@@ -11,7 +29,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderGantt(text, container);
     } catch (e) {
         console.error('Failed to load markdown', e);
-        container.innerHTML = '<p style="color:red; padding:2rem;">Failed to load data. See console.</p>';
+        container.innerHTML = '<p style="color:red; padding:2rem;">Failed to load data. Make sure the file exists.</p>';
+        const titleEl = document.getElementById('project-title');
+        if (titleEl) titleEl.textContent = 'Error Loading Project';
     }
 });
 
