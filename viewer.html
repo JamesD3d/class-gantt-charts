@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gantt Chart Viewer</title>
+    <link rel="stylesheet" href="gantt.css?v=6">
+</head>
+<body>
+
+<div class="container">
+    <div style="margin-bottom: 1rem;"><a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">&larr; Back to Projects</a></div>
+    
+    <h1 id="project-title">Loading Project...</h1>
+    <p id="project-subtitle" class="subtitle">Please wait...</p>
+
+    <!-- The grid will be injected into this wrapper by gantt.js. The data source is read from the URL query parameter. -->
+    <div id="gantt-wrapper" class="gantt-wrapper"></div>
+</div>
+
+<script src="gantt.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Grab the ?file= path from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const mdFile = urlParams.get('file');
+
+        if (mdFile) {
+            // Tell the wrapper where to look
+            document.getElementById('gantt-wrapper').setAttribute('data-src', mdFile);
+            
+            // Re-trigger the logic in gantt.js manually if it already fired before this script
+            fetch(mdFile)
+                .then(res => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.text();
+                })
+                .then(text => renderGantt(text, document.getElementById('gantt-wrapper')))
+                .catch(e => {
+                    console.error('Failed to load markdown', e);
+                    document.getElementById('gantt-wrapper').innerHTML = '<p style="color:red; padding:2rem;">Failed to load data. Make sure the file exists.</p>';
+                    document.getElementById('project-title').textContent = 'Error Loading Project';
+                });
+        } else {
+            document.getElementById('gantt-wrapper').innerHTML = '<p style="color:red; padding:2rem;">No project file specified in URL.</p>';
+            document.getElementById('project-title').textContent = 'No Project Selected';
+        }
+    });
+</script>
+</body>
+</html>
