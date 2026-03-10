@@ -374,3 +374,27 @@ p.subtitle {
     border-radius: 8px;
     border: 1px dashed var(--border-color);
 }
+
+/* Export Modal Styles */
+.export-btn-container { text-align: right; margin-bottom: 1rem; }
+.export-btn {
+    background: transparent; color: var(--text-main); border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+}
+.export-btn:hover { background: rgba(255,255,255,0.05); }
+.export-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 1000;
+}
+.export-modal {
+    background: var(--container-bg); padding: 2rem; border-radius: 8px; max-width: 400px; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid var(--border-color);
+}
+.export-modal h2 { margin-top: 0; font-size: 1.25rem; color: var(--text-main); }
+.export-modal p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+.export-form-group { margin-bottom: 1rem; }
+.export-form-group label { display: block; font-weight: 600; margin-bottom: 0.25rem; font-size: 0.9rem; color: var(--text-muted); }
+.export-form-group input, .export-form-group select {
+    width: 100%; padding: 0.5rem; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 4px; box-sizing: border-box; font-family: inherit; color-scheme: dark; margin-top: 0.25rem;
+}
+.export-form-group input:focus, .export-form-group select:focus { outline: none; border-color: var(--color-1); }
+.export-modal-footer { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem; }
