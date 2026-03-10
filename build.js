@@ -22,7 +22,7 @@ function parseMarkdownHeader(filePath) {
 // Generate the HTML for a single project card
 function createCardHtml(title, subtitle, mdFilePath) {
     // Generate the URL to open this file in the viewer
-    const viewerUrl = `viewer.html?file=${encodeURIComponent(mdFilePath)}`;
+    const viewerUrl = `viewer.html?file=${encodeURI(mdFilePath)}`;
     
     return `
             <a href="${viewerUrl}" class="project-card">
