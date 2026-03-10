@@ -63,9 +63,9 @@ function buildIndex() {
     console.log('Building index.html...');
 
     // Read the directories
-    const techEngCards = buildSection('projects/tech-eng-design');
-    const engDesignCards = buildSection('projects/eng-design');
-    const templateCards = buildSection('templates');
+    const techEngCards = buildSection('Mr. James/tech-eng-design');
+    const engDesignCards = buildSection('Mr. James/eng-design');
+    const templateCards = buildSection('Mr. James/templates');
 
     // Load the base index.html template
     let indexHtml = fs.readFileSync('index.html', 'utf-8');
