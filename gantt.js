@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         url = container.getAttribute('data-src');
     }
 
+    if (url) {
+        url = decodeURIComponent(url);
+    }
+
     if (!url) {
         if (window.location.pathname.includes('viewer.html')) {
             container.innerHTML = '<p style="color:red; padding:2rem;">No project file specified in URL.</p>';
