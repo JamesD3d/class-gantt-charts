@@ -50,7 +50,7 @@ Tooltip: Part 3 Requirements
 Points: 4 pts
 Start: 5
 Duration: 1
-Label: Data / Spec Writing
+Label: Test and Evaluate
 Tooltip: Testing
 - Rotate thru the various groups
 - Evaluate the game and instructions for each group
