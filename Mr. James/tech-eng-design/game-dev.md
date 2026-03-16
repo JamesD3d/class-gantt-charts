@@ -49,7 +49,7 @@ Tooltip: Part 3 Requirements
 ## Part 4: Test and Evaluate
 Points: 4 pts
 Start: 5
-Duration: 2
+Duration: 1
 Label: Data / Spec Writing
 Tooltip: Testing
 - Rotate thru the various groups
