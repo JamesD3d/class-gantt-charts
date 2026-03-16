@@ -1,10 +1,11 @@
 # Game Development Project Timeline
 Subtitle: Objectives
-In groups of no more than 5 develop a simple physical game (such as corn hole) or a board game utilizing existing classroom resources or resources you choose to provide.
-Write down a list of rules and procedures for playing the game you develop. 
-Create the game that was developed develop
-Share the instructions for your game with the other groups 
-Evaluate how well the instructions match what is expected. 
+Objective
+- In groups of no more than 5, develop a simple physical game (such as corn hole) or a board game utilizing existing classroom resources or resources you choose to provide.
+- Write down a list of rules and procedures for playing the game you develop. 
+- Create the game that was developed. 
+- Share the instructions for your game with the other groups. 
+- Evaluate how well the instructions match what is expected. 
 
 Columns: Mon Wk 1, Tue Wk 1, Wed Wk 1, Thu Wk 1, Fri Wk 1
 
