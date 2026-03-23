@@ -46,7 +46,7 @@ Points: 4 pts
 Start: 5
 Duration: 3
 Label:CAD to SOLID
-Tooltip: Use your Onshape Sketch to Create a 3d model of your house 
+Tooltip: Sketch to Create a 3d model of your house 
 - ensure all doors and windows are present in the final solid 
 - wall height is 9 ft
 - wall thickness is 8 in
@@ -58,7 +58,7 @@ Tooltip: Use your Onshape Sketch to Create a 3d model of your house
 Points: 4 pts
 Start: 7
 Duration: 1
-Label: Using colored construction paper and you sketch, cut out and label each room. 
+Label: Cut out and label each room. 
 Tooltip: Ensure everything is scaled correctly. 
 - ensure all doors and windows are present in the final solid
 - Use the elevation images to create a basic Roof Profile
@@ -68,7 +68,7 @@ Tooltip: Ensure everything is scaled correctly.
 Points: 4 pts
 Start: 8
 Duration: 1
-Label: Using Your model  
+Label: Complete an Energy Audit  
 - Complete an Energy Audit
 - Complete the Google Document
 - Complete the assignment reflection
@@ -77,7 +77,7 @@ Label: Using Your model
 Points: 4 pts
 Start: 8
 Duration: 2
-Label: Using Your model  
+Label: Complete a Financial Audit   
 - Complete a FInancial Audit 
 - Complete the Google Document
 - Complete the assignment reflection
