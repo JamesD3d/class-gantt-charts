@@ -64,7 +64,7 @@ Tooltip: Ensure everything is scaled correctly.
 - Use the elevation images to create a basic Roof Profile
 - add a floor to your project.  
 
-## Financial 
+## Energy 
 Points: 4 pts
 Start: 8
 Duration: 1
