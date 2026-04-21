@@ -1,4 +1,4 @@
-# POL_S1
+# POL_S2
 Subtitle: Semester 1 Proof of Learning Project Outline [cite: 1]
 Columns: Apr 22, Apr 23, Apr 24, Apr 27, May 6, May 10, May 15, May 22, May 26, May 29
 
