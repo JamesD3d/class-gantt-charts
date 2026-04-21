@@ -17,7 +17,7 @@ Points: 4 pts
 Start: 2
 Duration: 1
 Label: Floor Plans 
-Tooltip: Use Houseplans.com , .architecturaldesigns.com, or www.floorplans.com
+Tooltip: Use Houseplans.com , architecturaldesigns.com, or floorplans.com
 - Complete the Google Document
 - Complete the assignment reflection
 
@@ -26,7 +26,7 @@ Points: 4 pts
 Start: 2
 Duration: 2
 Label: Use Houseplans.com , .architecturaldesigns.com, or www.floorplans.com
-Tooltip: Select a flor plan to model based on the assigned constraints. 
+Tooltip: Select a floor plan to model based on the assigned constraints. 
 - Ensure your floor plan meets the criteria. 
 - Complete the Google Document
 - Complete the assignment reflection
