@@ -7,16 +7,21 @@ function parseMarkdownHeader(filePath) {
     const lines = content.split('\n');
     let title = path.basename(filePath, '.md');
     let subtitle = '';
+    let order = 999; // Default order if not specified
 
     for (const line of lines) {
         if (line.trim().startsWith('# ')) {
             title = line.substring(2).trim();
         } else if (line.trim().startsWith('Subtitle:')) {
             subtitle = line.substring(9).trim();
+        } else if (line.trim().startsWith('Order:')) {
+            const parsedOrder = parseInt(line.substring(6).trim(), 10);
+            if (!isNaN(parsedOrder)) order = parsedOrder;
+        } else if (line.trim().startsWith('Columns:') || line.trim().startsWith('## ')) {
+            break;
         }
-        if (title !== path.basename(filePath, '.md') && subtitle) break;
     }
-    return { title, subtitle };
+    return { title, subtitle, order };
 }
 
 // Generate the HTML for a single project card
@@ -38,8 +43,31 @@ function createCardHtml(title, subtitle, mdFilePath) {
 function buildSection(dirPath) {
     if (!fs.existsSync(dirPath)) return '';
     
-    const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md'));
-    if (files.length === 0) {
+    let files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md'));
+    
+    // Read and parse all files
+    let fileData = files.map(file => {
+        const fullPath = path.join(dirPath, file);
+        const webPath = fullPath.replace(/\\/g, '/');
+        const headerInfo = parseMarkdownHeader(fullPath);
+        const stats = fs.statSync(fullPath);
+        return { 
+            file, 
+            webPath, 
+            mtimeMs: stats.mtimeMs, 
+            ...headerInfo 
+        };
+    });
+
+    // Sort files by Order first (ascending), then fallback to newest modification time
+    fileData.sort((a, b) => {
+        if (a.order !== b.order) {
+            return a.order - b.order;
+        }
+        return b.mtimeMs - a.mtimeMs;
+    });
+
+    if (fileData.length === 0) {
         return `
             <div class="empty-state">
                 <p>No project timelines have been added to this section yet.</p>
@@ -48,12 +76,8 @@ function buildSection(dirPath) {
     }
 
     let html = '';
-    for (const file of files) {
-        const fullPath = path.join(dirPath, file);
-        // Normalize path separators for the web
-        const webPath = fullPath.replace(/\\/g, '/');
-        const { title, subtitle } = parseMarkdownHeader(fullPath);
-        html += createCardHtml(title, subtitle, webPath);
+    for (const data of fileData) {
+        html += createCardHtml(data.title, data.subtitle, data.webPath);
     }
     return html;
 }
