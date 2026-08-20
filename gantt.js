@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     container.setAttribute('data-src', url);
 
     try {
-        const response = await fetch(url);
+        const fetchUrl = url + (url.includes('?') ? '&' : '?') + '_t=' + Date.now();
+        const response = await fetch(fetchUrl, { cache: 'no-store' });
         if (!response.ok) throw new Error('Network response was not ok');
         const text = await response.text();
         renderGantt(text, container);
