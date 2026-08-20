@@ -1,0 +1,50 @@
+# Multi-Day Lab Template
+Subtitle: 10-Class Period Project Outline (with Key Vocabulary Integration)
+Columns: Day 1, Day 2, Day 3, Day 4, Day 5, Day 6, Day 7, Day 8, Day 9, Day 10
+
+## Initial Research
+Standards: Obj 2.01 & 2.03
+Start: 1
+Duration: 2
+Label: Research Phase
+Tooltip: Literature Review, Criteria, & Constraints
+- Identify project **criteria** (goals and requirements) and **constraints** (limitations)
+- Detail how the **engineering design process** (EDP) will be systematically followed
+- Research historical and contemporary solutions to the designated **engineering problem**
+- Document findings and references in your digital **evidence portfolio**
+
+## Design and Planning
+Standards: Obj 5.01, 5.02, & 5.03
+Start: 3
+Duration: 3
+Label: CAD Design
+Tooltip: 3D Modeling, Form, & Function
+- Sketch initial ideas on paper as detailed **annotated sketches**
+- Draft a 3D **CAD** (Computer-Aided Design) model using standard commands and geometric **constraints**
+- Optimize the layout to balance physical **form** (appearance) and intended **function** (utility)
+- Apply **parametric variables** to allow dimensions to update automatically
+- Export a dimensioned drawing sheet utilizing **aligned dimensioning** and **orthographic projection**
+
+## Implementation / Build
+Standards: Obj 2.02, 3.02, & 3.03
+Start: 6
+Duration: 4
+Label: Fabrication
+Tooltip: Safe Build Phase & Material Processing
+- Wear appropriate **PPE** (Personal Protective Equipment) and eliminate lab **hazards**
+- Select materials from correct families (**metals**, **polymers**, **ceramics**, or **composites**)
+- Fabricate the physical **model** or functional **prototype**
+- Utilize **additive modeling** (3D printing) or **subtractive modeling** (laser cutting/machining)
+- Perform assembly using thermal **joining** (soldering) or mechanical forming techniques
+
+## Final Presentation
+Standards: Obj 2.03 & 2.06
+Start: 10
+Duration: 1
+Label: Present
+Tooltip: Testing Statistics & Evaluation
+- Conduct performance tests and gather raw quantitative **data**
+- Analyze performance **statistics** (calculating class **mean**, **median**, **mode**, and **range**)
+- Identify how **tolerances** and dimensional variation affected your final build
+- Evaluate **trade-offs** made when criteria conflicted with design constraints
+- Present your working prototype and explain the physical principles (e.g., **simple machines** or **circuits**)
