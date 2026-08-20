@@ -1,0 +1,18 @@
+{
+  "name": "class-gantt-charts",
+  "version": "1.0.0",
+  "description": "Dynamic Gantt charts generated from Markdown files",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js",
+    "watch": "node build.js --watch",
+    "start": "node build.js --watch"
+  },
+  "keywords": [
+    "gantt",
+    "markdown",
+    "class-charts"
+  ],
+  "author": "Derrick James",
+  "license": "ISC"
+}
