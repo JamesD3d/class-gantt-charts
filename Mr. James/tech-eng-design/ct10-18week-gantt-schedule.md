@@ -70,7 +70,7 @@ Tooltip: Precision Crane & Mechanical Advantage
 
 ## Aerodynamics Lab
 Standards: Obj 3.05, 2.01
-Start: 9.5
+Start: 8.5
 Duration: 1
 Label: Aerodynamics
 Tooltip: Transportation Profiling & Launch Tests
