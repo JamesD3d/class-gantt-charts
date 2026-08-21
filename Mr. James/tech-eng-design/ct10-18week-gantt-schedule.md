@@ -41,15 +41,16 @@ Start: 5
 Duration: 2
 Label: Drawings & Printing
 Tooltip: Copy Object & Structural Hook Optimization
-- Reverse-engineer a real object for the **Copy Object Model Project**
-- Create annotated sketches and formal, dimensioned **orthographic projection** drawing sheets
 - Use CAD **fillet tools** on a **Structural Hook** to smooth high-stress interior corners
 - Run 3D printers 24/7 in the background to complete student phone holders and hooks
+- Reverse-engineer a real object for the **Copy Object Model Project**
+- Create annotated sketches and formal, dimensioned **orthographic projection** drawing sheets
+
 
 ## Materials & Destructive Testing
 Standards: Obj 2.03, 3.03
 Start: 7
-Duration: 1
+Duration: 0.2
 Label: Material Strength
 Tooltip: Paper Bridge & Compression Testing
 - Study physical material properties including **compression strength** and **tensile strength**
@@ -59,7 +60,7 @@ Tooltip: Paper Bridge & Compression Testing
 
 ## Simple Machines Heavy Build
 Standards: Obj 4.03
-Start: 8
+Start: 7
 Duration: 2
 Label: Cargo Crane Build
 Tooltip: Precision Crane & Mechanical Advantage
@@ -70,7 +71,7 @@ Tooltip: Precision Crane & Mechanical Advantage
 
 ## Aerodynamics Lab
 Standards: Obj 3.05, 2.01
-Start: 10
+Start: 9.5
 Duration: 1
 Label: Aerodynamics
 Tooltip: Transportation Profiling & Launch Tests
@@ -92,7 +93,7 @@ Tooltip: Mold Design & Volumetric Calculations
 
 ## Sheet Metal & Soldering
 Standards: Obj 2.02, 3.02
-Start: 12
+Start: 11
 Duration: 2
 Label: Metal Soldering
 Tooltip: Copper Solder Box Layout & Assembly
@@ -103,7 +104,7 @@ Tooltip: Copper Solder Box Layout & Assembly
 
 ## Systems & Electronics Capstone
 Standards: Obj 4.01, 4.02, 4.04, 3.06
-Start: 14
+Start: 13
 Duration: 2
 Label: IoT Smart Garden
 Tooltip: Breadboard Wiring, Sensors, & Ohm's Law
@@ -114,7 +115,7 @@ Tooltip: Breadboard Wiring, Sensors, & Ohm's Law
 
 ## Thermodynamics & Energy
 Standards: Obj 3.01
-Start: 16
+Start: 15
 Duration: 1
 Label: Energy Racers
 Tooltip: Rubber-Band Cars & Energy Flow
@@ -125,7 +126,7 @@ Tooltip: Rubber-Band Cars & Energy Flow
 
 ## VEX Robotics & Coding
 Standards: Std 1.00
-Start: 17
+Start: 16
 Duration: 1
 Label: Robotics Coding
 Tooltip: Block Programming & Sensor Logic
