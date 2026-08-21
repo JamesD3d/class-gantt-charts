@@ -46,7 +46,6 @@ Tooltip: Copy Object & Structural Hook Optimization
 - Reverse-engineer a real object for the **Copy Object Model Project**
 - Create annotated sketches and formal, dimensioned **orthographic projection** drawing sheets
 
-
 ## Materials & Destructive Testing
 Standards: Obj 2.03, 3.03
 Start: 7
