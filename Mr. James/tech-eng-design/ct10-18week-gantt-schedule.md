@@ -80,6 +80,17 @@ Tooltip: Transportation Profiling & Launch Tests
 - Launch airfoils using compressed air cannons and record flight velocity
 - Analyze aerodynamic performance logs and compile experimental findings
 
+## Thermodynamics & Energy
+Standards: Obj 3.01
+Start: 10
+Duration: 1
+Label: Energy Racers
+Tooltip: Rubber-Band Cars & Energy Flow
+- Build and test high-speed **Energy-Conversion Rubber-Band Cars**
+- Apply the laws of thermodynamics (conservation of energy and entropy increases)
+- Construct a **Sankey diagram** to map kinetic potential, work, and waste heat
+- Perform racing trials to evaluate the efficiency of physical energy transfer
+
 ## Concrete Mold & Pour
 Standards: Obj 2.05, 3.02, 3.03
 Start: 11
@@ -113,21 +124,11 @@ Tooltip: Breadboard Wiring, Sensors, & Ohm's Law
 - Connect moisture, temperature, and pump sensors to microcontroller pins
 - Apply **Ohm's Law** calculations to protect electronic semiconductor components
 
-## Thermodynamics & Energy
-Standards: Obj 3.01
-Start: 15
-Duration: 1
-Label: Energy Racers
-Tooltip: Rubber-Band Cars & Energy Flow
-- Build and test high-speed **Energy-Conversion Rubber-Band Cars**
-- Apply the laws of thermodynamics (conservation of energy and entropy increases)
-- Construct a **Sankey diagram** to map kinetic potential, work, and waste heat
-- Perform racing trials to evaluate the efficiency of physical energy transfer
 
 ## VEX Robotics & Coding
 Standards: Std 1.00
-Start: 16
-Duration: 1
+Start: 15.5
+Duration: 3
 Label: Robotics Coding
 Tooltip: Block Programming & Sensor Logic
 - Write **block-based code** statements to navigate the VEX robotics chassis
